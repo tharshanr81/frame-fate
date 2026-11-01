@@ -1,0 +1,9 @@
+name = "frame-fate-story"
+main = "worker.js"
+compatibility_date = "2026-11-01"
+
+[vars]
+# Replace this with the GitHub Pages origin only, without a repository path.
+ALLOWED_ORIGIN = "https://tharshanr81.github.io"
+# Optional. Change this if your Google AI Studio account does not have access.
+GEMINI_MODEL = "gemini-2.5-flash"

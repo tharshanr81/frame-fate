@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#090b0e">
+<meta name="description" content="FRAME//FATE is an interactive cinematic story game. Your decisions shape the movie.">
+<title>FRAME//FATE | Your choices write the movie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:dark;--bg:#090b0e;--panel:#11161b;--panel2:#171e25;--line:#29343d;--muted:#91a0aa;--text:#edf1f3;--gold:#e5b75c;--green:#79c49a;--red:#db746a;--blue:#81b9d4}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font-family:"DM Sans",sans-serif;min-height:100vh;background-image:radial-gradient(ellipse at 80% 0%,#26353b55,transparent 42%),linear-gradient(140deg,#090b0e,#0d1217 60%,#090b0e)}
+button,input,select{font:inherit}button{cursor:pointer}.wrap{width:min(1160px,calc(100% - 40px));margin:auto}
+header{height:72px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 max(20px,calc((100vw - 1160px)/2));position:sticky;top:0;z-index:10;background:#090b0eeb;backdrop-filter:blur(14px)}
+.logo{font:800 25px "Barlow Condensed";letter-spacing:2px}.logo span{color:var(--gold)}.topnote{font-size:10px;letter-spacing:2px;color:var(--muted)}.header-actions{display:flex;gap:8px}
+main{padding:36px 0 80px}.eyebrow{color:var(--gold);font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase}
+h1,h2,h3,p{margin-top:0}h1{font:800 clamp(52px,8vw,92px)/.88 "Barlow Condensed";letter-spacing:-1px;margin:15px 0 20px}h2{font:700 32px "Barlow Condensed";letter-spacing:.8px}h3{font:700 18px "Barlow Condensed";letter-spacing:1px}
+.lead{color:#aeb9c1;line-height:1.75;max-width:570px;font-size:14px}.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center;padding:32px 0 48px}
+.poster{height:350px;border:1px solid #35434a;border-radius:8px;overflow:hidden;position:relative;background:linear-gradient(0deg,#07090df2,transparent 65%),radial-gradient(ellipse at 68% 32%,#d1a36b77,transparent 12%),linear-gradient(120deg,#344a49,#172327 50%,#0a0e12);display:flex;align-items:end;padding:25px}
+.poster:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 45%,#05080a99),repeating-linear-gradient(90deg,transparent 0 75px,#ffffff08 76px 77px)}
+.poster:after{content:"";position:absolute;width:90px;height:190px;left:60%;bottom:0;background:linear-gradient(#11191b,#050607);clip-path:polygon(35% 0,65% 0,78% 30%,100% 100%,0 100%,22% 30%);filter:drop-shadow(0 0 20px #000)}
+.poster-copy{position:relative;z-index:1}.poster-copy strong{display:block;font:800 48px/.9 "Barlow Condensed";letter-spacing:2px}.poster-copy small{font-size:9px;letter-spacing:3px;color:#c6d0d3}
+.btn{border:1px solid var(--gold);background:var(--gold);color:#111;padding:13px 20px;font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;border-radius:4px;transition:.2s}.btn:hover{transform:translateY(-2px);filter:brightness(1.08)}.btn.ghost{background:transparent;border-color:var(--line);color:var(--text)}.btn.small{padding:9px 12px;font-size:9px}.btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.section-head{display:flex;justify-content:space-between;align-items:end;margin:26px 0 14px}.section-head h2{margin:0}.muted{color:var(--muted);font-size:11px}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.pick{border:1px solid var(--line);background:var(--panel);color:var(--text);padding:16px;border-radius:6px;text-align:left;min-height:125px;transition:.18s}.pick:hover{border-color:#927a4e;transform:translateY(-2px)}.pick.active{border-color:var(--gold);background:#292419}.pick .emoji{font-size:24px;margin-bottom:10px}.pick b{display:block;font-size:13px;margin-bottom:5px}.pick small{display:block;color:var(--muted);font-size:10px;line-height:1.5}
+.formgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:22px 0}.field label{display:block;color:var(--muted);font-size:10px;letter-spacing:1px;text-transform:uppercase;margin-bottom:7px}.field input,.field select{width:100%;padding:12px;background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:4px;outline:none}.field input:focus,.field select:focus{border-color:var(--gold)}
+.startbar{border-top:1px solid var(--line);padding-top:20px;margin-top:22px;display:flex;justify-content:space-between;align-items:center;gap:20px}.fine{font-size:10px;color:var(--muted);line-height:1.6}
+#game{display:none}.game-top{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:16px}.chapter{font:700 13px "Barlow Condensed";letter-spacing:2px;color:var(--gold);margin-top:5px}.game-layout{display:grid;grid-template-columns:minmax(0,1fr) 265px;gap:16px}
+.scene{border:1px solid var(--line);background:var(--panel);border-radius:7px;overflow:hidden}.scene-art{height:230px;position:relative;background:linear-gradient(0deg,#11161b,transparent 65%),radial-gradient(ellipse at 70% 40%,#a37a5066,transparent 25%),linear-gradient(120deg,#283b3b,#11191e 60%,#090d11);transition:background .3s}.scene-art:after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 3px,#00000013 4px 5px)}.scene-body{padding:24px}.scene-body h2{font-size:36px;margin:7px 0 12px}.story{color:#c5cdd2;font-size:13px;line-height:1.9;white-space:pre-line}.dialogue{border-left:2px solid var(--gold);background:#1a2024;padding:12px 15px;margin:18px 0;color:#e7d7b7;font-size:12px;font-style:italic;line-height:1.7}.options{display:grid;gap:9px;margin-top:22px}.option{display:flex;align-items:flex-start;gap:13px;padding:14px 15px;text-align:left;color:var(--text);background:#171e24;border:1px solid #303b44;border-radius:4px;font-size:12px;line-height:1.55;transition:.15s}.option:hover{border-color:var(--gold);background:#24231e}.option:disabled{opacity:.45;cursor:default}.option .num{font:700 19px "Barlow Condensed";color:var(--gold)}
+.sidebar{display:grid;gap:11px;align-content:start}.sidebox{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:15px}.sidebox h3{margin:0 0 13px}.stat{margin:12px 0}.statline{display:flex;justify-content:space-between;color:#c4cdd2;font-size:10px;margin-bottom:6px}.bar{height:5px;background:#2b343c;border-radius:9px;overflow:hidden}.bar i{display:block;height:100%;width:50%;background:var(--green);transition:width .25s}.bar.red i{background:var(--red)}.bar.gold i{background:var(--gold)}.entry{font-size:11px;color:#b9c3c9;padding:7px 0;border-bottom:1px solid #252e35;line-height:1.45}.entry:last-child{border:0}.log{font-size:10px;color:#9daab2;line-height:1.5}.log div{padding:5px 0;border-bottom:1px solid #252e35}.notice{margin-top:15px;padding:12px;border:1px solid #6a5734;background:#282319;color:#e7d5b3;font-size:11px;line-height:1.6;border-radius:4px}
+.ending{text-align:center;padding:30px 10px}.ending h2{font-size:54px;color:var(--gold)}.ending p{color:#bac5cc;line-height:1.7;font-size:13px}.hidden{display:none!important}
+.modal-backdrop{position:fixed;inset:0;background:#000b;z-index:20;display:grid;place-items:center;padding:20px}.modal{max-width:460px;width:100%;background:#141a20;border:1px solid var(--line);padding:24px;border-radius:8px;box-shadow:0 20px 80px #0009}.modal p{color:#aeb9c1;font-size:13px;line-height:1.7}.modal-actions{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
+footer{text-align:center;border-top:1px solid var(--line);padding:26px;color:#687781;font-size:9px;letter-spacing:2px}
+@media(max-width:820px){.hero{grid-template-columns:1fr}.poster{height:250px}.game-layout{grid-template-columns:1fr}.sidebar{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.wrap{width:calc(100% - 28px)}header{height:62px;padding:0 14px}.topnote{display:none}.hero{padding-top:20px}.cards{grid-template-columns:repeat(2,1fr)}.formgrid{grid-template-columns:1fr 1fr}.game-layout{grid-template-columns:1fr}.scene-art{height:160px}.scene-body{padding:17px}.scene-body h2{font-size:31px}.sidebar{grid-template-columns:1fr 1fr}.startbar{align-items:flex-start;flex-direction:column}.game-top{align-items:flex-start}}
+@media(max-width:390px){.formgrid{grid-template-columns:1fr}.sidebar{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+ <div class="logo">FRAME<span>//</span>FATE</div><div class="topnote">AN INTERACTIVE CINEMATIC EXPERIENCE</div>
+ <div class="header-actions"><button class="btn ghost small" id="continueBtn" hidden>CONTINUE</button><button class="btn ghost small" id="newBtn" hidden>NEW STORY</button></div>
+</header>
+<main class="wrap">
+<section id="setup">
+ <div class="hero">
+  <div><div class="eyebrow">YOUR STORY. YOUR CONSEQUENCES.</div><h1>DON'T WATCH<br>THE MOVIE.<br><span style="color:var(--gold)">LIVE IT.</span></h1>
+  <p class="lead">Every choice writes another scene. Trust the wrong person, lose something precious, or discover that your smallest decision changed everything. There is no guaranteed happy ending.</p>
+  <button class="btn" id="createBtn">CREATE YOUR STORY ↓</button></div>
+  <div class="poster"><div class="poster-copy"><small>AN ORIGINAL INTERACTIVE EXPERIENCE</small><strong>AFTER THE<br>LAST SIGNAL</strong><small>ONE SURVIVOR. A THOUSAND DECISIONS.</small></div></div>
+ </div>
+ <div class="section-head" id="genreHead"><h2>01 / SELECT YOUR GENRE</h2><span class="muted">Choose your universe</span></div>
+ <div class="cards" id="genres">
+  <button class="pick active" data-genre="survival"><div class="emoji">🌲</div><b>Survival Thriller</b><small>Scarcity, wilderness, danger and hard choices.</small></button>
+  <button class="pick" data-genre="psychological"><div class="emoji">🧠</div><b>Psychological</b><small>Paranoia, secrets and unreliable minds.</small></button>
+  <button class="pick" data-genre="crime"><div class="emoji">♠️</div><b>Crime & Gangster</b><small>Power, loyalty, betrayal and revenge.</small></button>
+  <button class="pick" data-genre="horror"><div class="emoji">👁️</div><b>Horror Mystery</b><small>Something is watching from the dark.</small></button>
+  <button class="pick" data-genre="scifi"><div class="emoji">⌁</div><b>Sci-Fi Mystery</b><small>Experiments, AI and fractured reality.</small></button>
+  <button class="pick" data-genre="action"><div class="emoji">⚡</div><b>Action Adventure</b><small>High stakes, pursuit and impossible odds.</small></button>
+  <button class="pick" data-genre="zombie"><div class="emoji">☣</div><b>Zombie Apocalypse</b><small>Infection, supplies and human threats.</small></button>
+  <button class="pick" data-genre="detective"><div class="emoji">⌕</div><b>Detective Mystery</b><small>Clues, suspects and buried truths.</small></button>
+ </div>
+ <div class="section-head"><h2>02 / BUILD YOUR CHARACTER</h2><span class="muted">Set the rules of your story</span></div>
+ <div class="formgrid">
+  <div class="field"><label>Character name</label><input id="playerName" maxlength="22" value="Alex" autocomplete="off"></div>
+  <div class="field"><label>Your role</label><select id="role"><option value="ordinary">Ordinary person</option><option value="soldier">Military-trained</option><option value="detective">Investigator</option><option value="criminal">Former criminal</option><option value="custom">Unknown past</option></select></div>
+  <div class="field"><label>Difficulty</label><select id="difficulty"><option value="cinematic">Cinematic · Forgiving</option><option value="realistic" selected>Realistic · Consequences matter</option><option value="hardcore">Hardcore · Permanent death</option></select></div>
+  <div class="field"><label>Time period</label><select id="period"><option>Modern day · 2026</option><option>1990s</option><option>Near future · 2050</option><option>Historical</option><option>Fictional universe</option></select></div>
+  <div class="field"><label>Presentation</label><select id="presentation"><option>Cinematic movie</option><option>Detailed novel</option><option>Interactive game</option></select></div>
+  <div class="field"><label>Story length</label><select id="length"><option value="short">Short film · 5 chapters</option><option value="standard" selected>Feature film · 10 chapters</option><option value="long">Epic · 15 chapters</option></select></div>
+ </div>
+ <div class="section-head"><h2>03 / STORY ENGINE</h2><span class="muted">Hybrid mode · offline + AI</span></div>
+ <div class="formgrid">
+  <div class="field"><label for="aiEnabled">AI story generation</label><select id="aiEnabled"><option value="yes" selected>Enable AI when connected</option><option value="no">Offline stories only</option></select></div>
+  <div class="field" style="grid-column:span 2"><label for="aiEndpoint">Your AI Worker URL (optional)</label><input id="aiEndpoint" type="url" placeholder="https://your-worker.your-subdomain.workers.dev/api/story" autocomplete="url"></div>
+ </div>
+ <div class="startbar"><div class="fine">SINGLE PLAYER · HYBRID STORY ENGINE<br>Offline scenes always work. AI needs your own secure Worker URL and API key.</div><button class="btn" id="startBtn">BEGIN YOUR MOVIE →</button></div>
+</section>
+
+<section id="game" hidden>
+ <div class="game-top"><div><div class="eyebrow">NOW PLAYING</div><div class="chapter" id="chapterLabel"></div></div><div class="header-actions"><button class="btn ghost small" id="saveBtn">SAVE STORY</button><button class="btn ghost small" id="exitBtn">EXIT</button></div></div>
+ <div class="game-layout">
+  <article class="scene"><div class="scene-art" id="sceneArt"></div><div class="scene-body"><div class="eyebrow" id="sceneTag"></div><div class="muted" id="engineStatus" style="margin-top:7px"></div><h2 id="sceneTitle"></h2><div class="story" id="storyText"></div><div class="dialogue" id="dialogue" hidden></div><div class="options" id="options"></div><div class="notice" id="feedback" hidden></div><div class="ending" id="ending" hidden></div></div></article>
+  <aside class="sidebar">
+   <div class="sidebox"><h3>CHARACTER STATUS</h3><div class="stat"><div class="statline"><span>HEALTH</span><b id="healthNum">100%</b></div><div class="bar red"><i id="healthBar"></i></div></div><div class="stat"><div class="statline"><span>STAMINA</span><b id="staminaNum">80%</b></div><div class="bar"><i id="staminaBar"></i></div></div><div class="stat"><div class="statline"><span>TRUST</span><b id="trustNum">50%</b></div><div class="bar gold"><i id="trustBar"></i></div></div></div>
+   <div class="sidebox"><h3>INVENTORY</h3><div id="inventory" class="entry">Nothing yet</div></div>
+   <div class="sidebox"><h3>STORY RECORD</h3><div id="log" class="log">Your story is beginning...</div></div>
+   <div class="sidebox"><h3>YOUR PROFILE</h3><div id="profileName" class="entry"></div><div id="profileRole" class="entry"></div><div id="profileDifficulty" class="entry"></div><div id="profileGenre" class="entry"></div></div>
+  </aside>
+ </div>
+</section>
+</main>
+<footer>FRAME//FATE · EVERY CHOICE LEAVES A MARK · A SINGLE-PLAYER STORY EXPERIENCE</footer>
+<div class="modal-backdrop hidden" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal"><div class="eyebrow">FRAME//FATE</div><h2 id="modalTitle">Leave this story?</h2><p id="modalText">Your current progress is saved automatically on this device.</p><div class="modal-actions"><button class="btn ghost" id="modalCancel">CANCEL</button><button class="btn" id="modalConfirm">CONFIRM</button></div></div></div>
+<script>
+'use strict';
+const $=id=>document.getElementById(id);
+const SAVE_KEY='framefate.v2.save';
+let selectedGenre='survival', state=null, pendingAction=null, aiBusy=false;
+const AI_MODEL_LABEL='Gemini AI';
+const GENRES={
+survival:{label:'Survival Thriller',setting:'a remote mountain road during a violent storm',opening:'Your vehicle has stopped on a narrow road surrounded by dense forest. The radio is nothing but static. Your phone has no signal. A dim light flickers inside an old roadside cabin. Behind you, somewhere between the trees, a branch snaps.',mystery:'A voice on the radio claims it knows what you will do next.',person:'Mara',place:'the cabin'},
+psychological:{label:'Psychological Thriller',setting:'an isolated coastal hotel during the off-season',opening:'You wake in room 17 of a hotel you do not remember checking into. The clock says 03:17. Your reflection seems a fraction of a second late. On the desk is a photograph of you sleeping, taken from inside this room.',mystery:'A note in your own handwriting says: DO NOT TRUST THE PERSON WHO KNOCKS.',person:'Dr. Vale',place:'the hotel office'},
+crime:{label:'Crime & Gangster',setting:'a rain-soaked city district after midnight',opening:'A black car idles outside a closed restaurant. Inside, a phone rings beside an envelope of cash and a photograph of someone you thought was dead. Your old crew has gone silent. Someone has broken the rules of the city.',mystery:'A message arrives: You have one hour to decide who walks away.',person:'Rafi',place:'the back room'},
+horror:{label:'Horror Mystery',setting:'a village where every house has its lights on',opening:'You arrive at a village just before midnight. Every house is lit, but nobody answers the door. A church bell rings thirteen times. At the end of the street, a child stands facing a wall and quietly counts backwards.',mystery:'A voice from the empty church calls you by a name you have never used.',person:'Elena',place:'the church'},
+scifi:{label:'Sci-Fi Mystery',setting:'a research station beneath an abandoned city',opening:'Emergency lights pulse red across the research station. Every terminal displays the same timestamp: tomorrow, 08:42. The elevator is locked. A sealed lab door has been opened from the inside, although the room is supposed to be empty.',mystery:'The station AI says it has already watched this exact conversation.',person:'NOVA',place:'the control room'},
+action:{label:'Action Adventure',setting:'a crowded city during a coordinated blackout',opening:'The city loses power in a single instant. A convoy crashes at the intersection below. A sealed case slides across the wet road and stops beside your shoe. Two groups are running towards it from opposite ends of the street.',mystery:'A voice in your earpiece says: You are the only one who can get it out.',person:'Iris',place:'the underground station'},
+zombie:{label:'Zombie Apocalypse',setting:'a quarantined industrial town three weeks after the outbreak',opening:'The barricade behind you collapses. The town is quiet except for distant infected calls and the crackle of a burning building. Your backpack is almost empty. A flare rises from a rooftop across the street, then disappears.',mystery:'Someone is broadcasting a safe-zone location, but the signal changes every ten minutes.',person:'Noah',place:'the pharmacy'},
+detective:{label:'Detective Mystery',setting:'a rain-soaked city on the night of a missing-person case',opening:'A sealed evidence envelope waits on your desk. The missing person was last seen at 11:47 PM, but the CCTV footage shows the same person entering the station at 12:06 AM. The case file has been reopened without your authorisation.',mystery:'A witness left a message: The detective in the photograph is not you. Look again.',person:'Inspector Sen',place:'the archive room'}
+};
+function makeScenes(){
+return {
+start:{chapter:'CHAPTER 01 · THE ARRIVAL',tag:'SCENE 01 · AFTER MIDNIGHT',title:'THE FIRST WARNING',text:()=>`You are ${state.name}. You find yourself in ${GENRES[state.genre].setting}.\n\n${GENRES[state.genre].opening}\n\nYou check your pockets. Your phone is at 12%. You have no idea how long you have been here.`,dialogue:`UNKNOWN TRANSMISSION: "...if anyone can hear this... ${GENRES[state.genre].mystery}"`,choices:[['investigate',`Move towards ${GENRES[state.genre].place}. Find answers.`],['hide','Stay out of sight and observe the surroundings.'],['search','Search the immediate area for useful items first.']]},
+investigate:{chapter:'CHAPTER 02 · THE STRANGER',tag:'SCENE 02 · FIRST CONTACT',title:'A FRAGILE ALLIANCE',text:()=>`You approach ${GENRES[state.genre].place}. ${GENRES[state.genre].person} is waiting inside, visibly shaken. They recognise you, though you have never met.\n\nThey place a small object on the table and ask you to sit. Their eyes keep drifting towards the door.`,dialogue:`${GENRES[state.genre].person.toUpperCase()}: "Before I tell you anything, I need to know whether I can trust you."`,choices:[['truth','Tell them what you know, including what you do not understand.'],['lie','Invent a convincing story. Keep your real intentions hidden.'],['pressure','Demand answers. You do not have time for games.']]},
+hide:{chapter:'CHAPTER 02 · THE SHADOWS',tag:'SCENE 02 · WATCHING',title:'SOMEONE ELSE IS HERE',text:()=>`You find a place to watch without being seen. Two figures arrive. One carries a case. The other keeps looking over their shoulder.\n\nYou catch only fragments of their conversation, but one name is repeated several times: ${GENRES[state.genre].person}. A third figure is standing directly behind you.`,dialogue:'UNKNOWN VOICE: "You should not have followed them."',choices:[['turn','Turn around slowly and face the stranger.'],['run','Run before they can get closer.'],['listen','Stay still and try to hear what they want.']]},
+search:{chapter:'CHAPTER 02 · WHAT REMAINS',tag:'SCENE 02 · SEARCH',title:'USEFUL THINGS',text:()=>`You search the nearby area. Under a loose panel you find a small first-aid kit, a weak flashlight and a folded note. The note contains a time and a location, written in a handwriting that feels familiar.\n\nA sound comes from nearby. Someone is approaching.`,dialogue:'NOTE: "If you are reading this, the first decision has already been made."',choices:[['take','Take the kit and flashlight, then investigate.'],['leave','Leave everything and move quickly.'],['ambush','Prepare to confront whoever is approaching.']]},
+truth:{chapter:'CHAPTER 03 · THE CONFESSION',tag:'SCENE 03 · ALLIANCE',title:'THE PRICE OF HONESTY',text:()=>`${GENRES[state.genre].person} listens without interrupting. Their shoulders relax, but only slightly. They reveal that someone has been asking questions about you for days.\n\nThey offer you a key and point towards a locked room. "The answer is inside. But once you see it, there is no going back."`,dialogue:`${GENRES[state.genre].person.toUpperCase()}: "We do this together. No more secrets."`,choices:[['together','Accept the alliance and enter together.'],['alone','Take the key. Investigate alone.'],['refuse','Refuse. You need another way forward.']]},
+lie:{chapter:'CHAPTER 03 · THE LIE',tag:'SCENE 03 · DISTRUST',title:'A CRACK IN THE STORY',text:()=>`${GENRES[state.genre].person} nods, but their expression changes. They quietly move a phone out of your reach.\n\n"You should rest," they say. Through the half-open door, you see them send a message. They know something is wrong.`,dialogue:'A notification flashes on the screen: "They are here. Keep the second door locked."',choices:[['confront','Ask directly why they sent that message.'],['escape','Slip out before they can stop you.'],['wait','Stay calm and see what happens next.']]},
+pressure:{chapter:'CHAPTER 03 · THE THREAT',tag:'SCENE 03 · CONFRONTATION',title:'NO EASY TRUST',text:()=>`Your demand changes the room. ${GENRES[state.genre].person} steps back and reaches for something beneath the table.\n\nA heavy sound comes from the locked room. Three knocks. A pause. Then three more. Whatever is inside knows you are here.`,dialogue:'KNOCK. KNOCK. KNOCK.',choices:[['door','Approach the locked room.'],['supplies','Take what you can and leave.'],['calm','Lower your voice and ask what is happening.']]},
+turn:{chapter:'CHAPTER 03 · FACE TO FACE',tag:'SCENE 03 · THE STRANGER',title:'A FAMILIAR FACE',text:()=>`The stranger steps into the light. It is ${GENRES[state.genre].person}, but older, exhausted and carrying a scar you have never seen.\n\nThey say they have been trying to prevent this night from happening. They ask you to make one choice before explaining anything.`,dialogue:'STRANGER: "You only get one chance to change what happens next."',choices:[['believe','Believe them and ask what must be changed.'],['doubt','Keep your distance and demand proof.'],['attack','Make the first move.']]},
+run:{chapter:'CHAPTER 03 · THE PURSUIT',tag:'SCENE 03 · ESCAPE',title:'NO TIME TO THINK',text:()=>`You run through the narrow passage. Footsteps follow, then stop. You find a service door and a stairwell leading down. A warning light blinks above the door.\n\nYour breathing is heavy. You can keep moving, or risk turning back to see who followed you.`,dialogue:'A voice echoes from behind: "You forgot something."',choices:[['stairs','Take the stairs and keep moving.'],['back','Turn around and face whoever followed you.'],['lock','Secure the door and search for another exit.']]},
+listen:{chapter:'CHAPTER 03 · THE MESSAGE',tag:'SCENE 03 · EAVESDROPPING',title:'WORDS IN THE DARK',text:()=>`You remain still. The figures begin arguing. One says the plan has failed. Another says the person they were waiting for has already arrived.\n\nA phone vibrates beside your foot. The screen shows a message addressed to you.`,dialogue:'MESSAGE: "Do not let them know you found the recording."',choices:[['recording','Find the recording before they notice you.'],['signal','Send a message to the stranger.'],['leave','Walk away without revealing yourself.']]},
+take:{chapter:'CHAPTER 03 · THE CLUE',tag:'SCENE 03 · EVIDENCE',title:'THE NOTE WAS RIGHT',text:()=>`The first-aid kit and flashlight may prove useful. The note points towards a secure room nearby. You hear a vehicle stopping outside. Someone calls your name.\n\nYou have a few seconds to decide whether to follow the note or get away.`,dialogue:'UNKNOWN VOICE: "We know you are in there."',choices:[['secure','Follow the note to the secure room.'],['window','Leave through the nearest exit.'],['face','Stay and confront the arrival.']]},
+leave:{chapter:'CHAPTER 03 · THE CLUE',tag:'SCENE 03 · EVIDENCE',title:'EMPTY HANDS',text:()=>`You move quickly, leaving the supplies behind. The approaching footsteps stop just outside. A shadow crosses the doorway.\n\nYou reach a junction. One route leads towards the main road. The other disappears into a dark service corridor.`,dialogue:'A distant siren rises, then cuts off abruptly.',choices:[['road','Take the main road.'],['corridor','Take the service corridor.'],['watch','Wait and identify the person outside.']]},
+ambush:{chapter:'CHAPTER 03 · THE CONFRONTATION',tag:'SCENE 03 · AMBUSH',title:'FIRST MOVE',text:()=>`You prepare for the arrival. The door opens. A stranger steps inside, sees you and freezes. They are carrying a small case with your name written on it.\n\nThey put the case down and raise both hands.`,dialogue:'STRANGER: "I was told you would understand."',choices:[['open','Open the case.'],['question','Ask who sent them.'],['take','Take the case and leave immediately.']]},
+together:{chapter:'CHAPTER 04 · THE REVEAL',tag:'SCENE 04 · THE LOCKED ROOM',title:'THE RECORDING',text:()=>`The room contains a monitor and a recording device. The footage shows you making a decision that you have not made yet. ${GENRES[state.genre].person} looks genuinely frightened.\n\nA voice on the recording says: "When the next signal comes, one of you must stay behind."`,dialogue:'The monitor turns on by itself. A countdown begins.',choices:[['trust','Trust your ally and prepare to face the signal together.'],['sacrifice','Tell your ally to leave while you stay.'],['destroy','Destroy the device before the countdown ends.']]},
+alone:{chapter:'CHAPTER 04 · THE REVEAL',tag:'SCENE 04 · THE LOCKED ROOM',title:'THE RECORDING',text:()=>`You enter alone. The room contains a monitor and a recording device. The footage shows ${GENRES[state.genre].person} standing beside you, but the date is several days in the future.\n\nA voice on the recording says: "You should have brought them with you."`,dialogue:'The monitor turns on by itself. A countdown begins.',choices:[['watch','Watch the complete recording.'],['destroy','Destroy the device.'],['escape2','Leave before the countdown reaches zero.']]},
+refuse:{chapter:'CHAPTER 04 · THE REVEAL',tag:'SCENE 04 · THE ROAD',title:'THE OTHER WAY',text:()=>`You refuse the offer. Outside, the weather changes suddenly. A vehicle waits at the end of the street with its engine running.\n\nYour phone receives one message: "You made the right choice. Now do not get in the car."`,dialogue:'The driver opens the door and looks directly at you.',choices:[['car','Get into the waiting vehicle.'],['walk','Walk away from the vehicle.'],['driver','Approach the driver and ask who sent them.']]},
+confront:{chapter:'CHAPTER 04 · THE REVEAL',tag:'SCENE 04 · THE MESSAGE',title:'THE TRUTH IS COMING',text:()=>`Your question catches ${GENRES[state.genre].person} off guard. They admit the message was a warning, not a threat. Someone else is tracking both of you.\n\nThey show you a map with a route marked in red. One route is fast. The other is safer, but takes longer.`,dialogue:'"I can explain everything, but we have to move now."',choices:[['fast','Take the fast route.'],['safe','Choose the longer, safer route.'],['split','Separate and meet at the marked location.']]},
+escape:{chapter:'CHAPTER 04 · THE REVEAL',tag:'SCENE 04 · OUTSIDE',title:'THE COST OF ESCAPE',text:()=>`You get outside, but the exit slams shut behind you. Your phone buzzes with a new recording. It is your own voice, older and exhausted.\n\n"Whatever you do next, do not let ${GENRES[state.genre].person} reach the road. You already made that mistake once."`,dialogue:'YOUR VOICE: "This is not the first time. Please, remember."',choices:[['mara','Trust the warning and avoid your ally.'],['ally','Ignore the recording and find your ally.'],['signal','Trace the source of the recording.']]},
+ending_good:{chapter:'FINAL CHAPTER · THE WAY OUT',tag:'ENDING · DAWN',title:'A WAY FORWARD',text:()=>`The first light appears. You make it beyond the danger, carrying the truth with you. The world looks ordinary again, but you know it is not.\n\nA final message arrives. It contains a photograph of the place where this story began. Someone has circled a new date.`,ending:'A fragile escape. You survived, but the mystery is still alive.'},
+ending_bad:{chapter:'FINAL CHAPTER · LOST',tag:'ENDING · NO SIGNAL',title:'THE CONSEQUENCES',text:()=>`The sound around you disappears. The last thing you hear is a familiar voice repeating the warning you ignored. By morning, the place is empty. Your story becomes a rumour told by people who were never there.`,ending:'The choices caught up with you. Not every story ends with a rescue.'},
+ending_secret:{chapter:'FINAL CHAPTER · THE LOOP',tag:'SECRET ENDING',title:'YOU WERE THE SIGNAL',text:()=>`The recording plays. It is your voice, recorded from the other side of the event. Every warning, every strange encounter and every decision was connected.\n\nYou pick up the microphone. You know exactly what to say to the person who will arrive next.`,ending:'SECRET ENDING UNLOCKED · The story begins again, with you on the other side.'}
+};
+}
+function selectGenre(g){selectedGenre=g;document.querySelectorAll('[data-genre]').forEach(b=>b.classList.toggle('active',b.dataset.genre===g))}
+document.querySelectorAll('[data-genre]').forEach(b=>b.addEventListener('click',()=>selectGenre(b.dataset.genre)));
+$('createBtn').addEventListener('click',()=>$('genreHead').scrollIntoView({behavior:'smooth'}));
+function startGame(){
+ const name=$('playerName').value.trim()||'Alex';
+ state={version:3,name,role:$('role').value,difficulty:$('difficulty').value,period:$('period').value,presentation:$('presentation').value,length:$('length').value,genre:selectedGenre,health:100,stamina:80,trust:50,inventory:[],history:[],flags:{},scene:'start',turn:0,feedback:'',ended:false,aiEnabled:$('aiEnabled').value==='yes',aiEndpoint:$('aiEndpoint').value.trim(),aiScene:null,aiChapter:1,aiHistory:[]};
+ $('setup').hidden=true;$('game').hidden=false;$('profileName').textContent=name;$('profileRole').textContent=$('role').selectedOptions[0].text;$('profileDifficulty').textContent=$('difficulty').selectedOptions[0].text;$('profileGenre').textContent=GENRES[selectedGenre].label;
+ $('newBtn').hidden=false;$('continueBtn').hidden=true;render();window.scrollTo({top:0,behavior:'smooth'});autoSave();
+}
+function clamp(v){return Math.max(0,Math.min(100,v))}
+function change(k,n){state[k]=clamp(state[k]+n)}
+function item(x){if(!state.inventory.includes(x))state.inventory.push(x)}
+async function resolve(key,label){
+ if(!state||state.ended)return;
+ const f=state.flags;let next='ending_good',note='';
+ const go=(scene,msg)=>{next=scene;note=msg};
+ switch(key){
+ case'investigate':f.investigated=true;change('stamina',-5);item('Access token');go('investigate','You approached the location and made contact.');break;
+ case'hide':f.hidden=true;change('trust',-3);go('hide','You stayed out of sight, but someone noticed you.');break;
+ case'search':f.searched=true;item('First-aid kit');item('Weak flashlight');change('stamina',5);go('search','You searched the area and found useful supplies.');break;
+ case'truth':f.honest=true;change('trust',18);item('Room key');go('truth','Your honesty created a fragile alliance.');break;
+ case'lie':f.lied=true;change('trust',-22);go('lie','Your story did not convince them.');break;
+ case'pressure':f.threat=true;change('trust',-25);change('stamina',-5);go('pressure','You escalated the encounter.');break;
+ case'turn':f.faced=true;change('trust',8);go('turn','You turned to face the stranger.');break;
+ case'run':f.fled=true;change('stamina',-15);go('run','You ran before learning who was following.');break;
+ case'listen':f.listened=true;item('Encrypted message');go('listen','You overheard a conversation and found a message.');break;
+ case'take':f.supplies=true;item('First-aid kit');item('Flashlight');change('stamina',5);go('take','You took the supplies and followed the clue.');break;
+ case'leave':f.leftSupplies=true;change('stamina',-5);go('leave','You left the supplies behind and moved quickly.');break;
+ case'ambush':f.ambushed=true;change('trust',-5);go('ambush','You prepared for the arrival.');break;
+ case'together':f.ally=true;change('trust',20);go('together','Your ally will remember that you trusted them.');break;
+ case'alone':f.alone=true;change('trust',-8);go('alone','You chose to investigate alone.');break;
+ case'refuse':f.refused=true;change('trust',-5);go('refuse','You refused the alliance.');break;
+ case'confront':f.confronted=true;change('trust',5);go('confront','You demanded an explanation.');break;
+ case'escape':f.escaped=true;change('stamina',-12);go('escape','You escaped, but the warning followed you.');break;
+ case'wait':f.waited=true;change('trust',4);go('final','You waited and learned more.');break;
+ case'door':f.door=true;change('health',-10);go('final','The locked room pushed back. You were hurt.');break;
+ case'supplies':item('Water bottle');item('Food tin');go('final','You took supplies and left.');break;
+ case'calm':f.calm=true;change('trust',10);go('final','You gave them a chance to explain.');break;
+ case'believe':f.believed=true;change('trust',15);go('final','You chose to believe the stranger.');break;
+ case'doubt':f.doubted=true;go('final','You demanded proof before trusting them.');break;
+ case'attack':f.attacked=true;change('health',-18);change('trust',-15);go('final','The confrontation left you injured.');break;
+ case'stairs':f.stairs=true;change('stamina',-10);go('final','You took the stairs and kept moving.');break;
+ case'back':f.back=true;change('health',-15);go('final','Turning back cost you.');break;
+ case'lock':f.locked=true;item('Metal key');go('final','You secured the door and found another route.');break;
+ case'recording':f.recording=true;item('Voice recording');go('final','You recovered the recording.');break;
+ case'signal':f.signal=true;go('final','You sent a signal to your contact.');break;
+ case'secure':f.secure=true;item('Encrypted drive');go('final','The secure room held a useful clue.');break;
+ case'window':f.window=true;change('health',-5);go('final','You escaped through a narrow exit.');break;
+ case'face':f.face=true;change('trust',5);go('final','You stayed to face whoever arrived.');break;
+ case'open':f.case=true;item('Sealed case contents');go('final','You opened the case and found evidence.');break;
+ case'question':f.question=true;change('trust',8);go('final','You learned who sent the stranger.');break;
+ case'takecase':f.takecase=true;item('Sealed case');go('final','You took the case and left.');break;
+ case'trust':f.trusted=true;change('trust',15);go('final','You trusted your ally with the next decision.');break;
+ case'sacrifice':f.sacrifice=true;change('trust',-5);go('final','You offered to stay behind.');break;
+ case'destroy':f.destroyed=true;change('health',-5);go('final','You destroyed the device.');break;
+ case'watch':f.watched=true;item('Future recording');go('final','You watched the complete recording.');break;
+ case'escape2':f.escape2=true;change('stamina',-8);go('final','You left before the countdown ended.');break;
+ case'car':f.car=true;change('trust',-10);go('final','You entered the waiting vehicle.');break;
+ case'walk':f.walk=true;change('stamina',-8);go('final','You walked away from the vehicle.');break;
+ case'driver':f.driver=true;change('trust',5);go('final','You confronted the driver.');break;
+ case'fast':f.fast=true;change('health',-12);change('stamina',-8);go('final','The fast route cost you.');break;
+ case'safe':f.safe=true;change('stamina',-5);go('final','The safer route took longer, but protected you.');break;
+ case'split':f.split=true;change('trust',-8);go('final','You split up. You may regret it.');break;
+ case'mara':case'ally':if(state.trust>=62&&!f.lied&&!f.threat){next='ending_good'}else{next='ending_bad'}state.ended=true;note='Your earlier choices decided whether trust was strong enough.';break;
+ case'runfinal':next=(state.health>=45&&state.stamina>=20)?'ending_good':'ending_bad';state.ended=true;note='You faced the danger alone.';break;
+ case'signalfinal':next=(f.recording||f.watched)&&f.searched?'ending_secret':'ending_bad';state.ended=true;note='The signal revealed what your earlier clues meant.';break;
+ case'finalsignal':next=(f.ally&&state.trust>=65)?'ending_good':'ending_bad';state.ended=true;note='Your alliance shaped the final outcome.';break;
+ case'fastfinal':next=(state.health>=55)?'ending_good':'ending_bad';state.ended=true;note='The route you chose determined the cost of escape.';break;
+ case'roadfinal':next=(f.walk||f.safe||f.secure)?'ending_good':'ending_bad';state.ended=true;note='Your earlier preparation changed your chances.';break;
+ default:next='ending_bad';state.ended=true;note='The story reached an unexpected end.';
+ }
+ if(state.health<=0){next='ending_bad';state.ended=true;note='Your injuries became too severe. The story ends here.'}
+ state.scene=next;state.turn++;state.history.push({label,scene:next,health:state.health,trust:state.trust});state.feedback=note;
+ if(!state.ended && state.turn>=3){state.scene='final';}
+ if(!state.ended && state.aiEnabled && state.aiEndpoint){
+   state.scene=next;
+   state.aiScene=null;
+   state.aiChapter=Math.max(2,state.aiChapter);
+   await generateAIScene(label);
+ } else {
+   state.aiScene=null;
+ }
+ render();autoSave();
+}
+async function handleAIChoice(index){
+ if(!state || state.ended || aiBusy)return;
+ const sc=state.aiScene, choice=sc && sc.choices && sc.choices[index];
+ if(!choice)return;
+ const effect=choice.effects||{};
+ change('health',Number(effect.health)||0);change('stamina',Number(effect.stamina)||0);change('trust',Number(effect.trust)||0);
+ if(typeof effect.item==='string' && effect.item.trim())item(effect.item.trim().slice(0,48));
+ const label=choice.text;
+ state.history.push({label,scene:'ai',health:state.health,trust:state.trust});
+ state.aiHistory.push({chapter:state.aiChapter,choice:label,consequence:choice.consequence||''});
+ state.turn++;state.aiChapter++;
+ state.feedback=choice.consequence||'Your decision changed what happens next.';
+ state.aiScene=null;
+ state.scene='final';
+ if(state.health<=0){state.ended=true;state.aiScene={chapter:'FINAL CHAPTER · LOST',tag:'AI ENDING',title:'THE LAST BREATH',text:'Your injuries finally overcome you. The world continues without knowing how close you came.',dialogue:'',choices:[],ending:'Your journey ended here. The consequences were permanent.'};render();autoSave();return;}
+ if(state.aiChapter>=(state.length==='short'?5:state.length==='long'?15:10)){
+   await generateAIScene(label,true);
+ } else {
+   await generateAIScene(label,false);
+ }
+ render();autoSave();
+}
+async function generateAIScene(lastChoice,forceEnding=false){
+ if(!state.aiEndpoint || aiBusy)return;
+ aiBusy=true;setEngineStatus('AI WRITER · CREATING THE NEXT SCENE…');$('options').replaceChildren();
+ try{
+  const payload={genre:GENRES[state.genre].label,genreKey:state.genre,setting:GENRES[state.genre].setting,character:{name:state.name,role:state.role,difficulty:state.difficulty,period:state.period,presentation:state.presentation},chapter:state.aiChapter,maxChapters:state.length==='short'?5:state.length==='long'?15:10,forceEnding:!!forceEnding,lastChoice:String(lastChoice||'The story begins'),stats:{health:state.health,stamina:state.stamina,trust:state.trust},inventory:state.inventory.slice(0,12),flags:state.flags,previousScenes:state.aiHistory.slice(-6),openingContext:GENRES[state.genre].opening,mystery:GENRES[state.genre].mystery};
+  const controller=new AbortController();const timeout=setTimeout(()=>controller.abort(),35000);
+  const response=await fetch(state.aiEndpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload),signal:controller.signal});clearTimeout(timeout);
+  if(!response.ok){const detail=await response.text();throw new Error(response.status===429?'AI free quota/rate limit reached.':'AI Worker error ('+response.status+'): '+detail.slice(0,150));}
+  const data=await response.json();
+  if(!data.scene || !Array.isArray(data.scene.choices))throw new Error('AI returned an invalid scene.');
+  state.aiScene=sanitizeAIScene(data.scene);state.aiHistory.push({chapter:state.aiChapter,scene:state.aiScene.title,choice:lastChoice});
+  if(state.aiScene.isEnding){state.ended=true;state.scene='ai-ending';}
+  setEngineStatus('✦ '+AI_MODEL_LABEL+' · CHAPTER '+state.aiChapter);
+ }catch(error){
+  console.warn('AI story generation failed; switching to offline scene.',error);
+  state.aiScene=null;
+  if(state.scene==='ai' || state.scene==='ai-ending')state.scene='final';
+  state.feedback='AI unavailable: '+(error.name==='AbortError'?'request timed out.':error.message)+' Offline story mode is continuing.';
+  setEngineStatus('OFFLINE MODE · PREWRITTEN STORY');
+ }finally{aiBusy=false;}
+}
+function sanitizeAIScene(scene){
+ const clean={chapter:String(scene.chapter||('CHAPTER '+state.aiChapter)).slice(0,90),tag:String(scene.tag||'AI GENERATED SCENE').slice(0,90),title:String(scene.title||'THE NEXT MOVE').slice(0,100),text:String(scene.text||'').slice(0,4500),dialogue:String(scene.dialogue||'').slice(0,700),choices:[],isEnding:!!scene.isEnding,ending:String(scene.ending||'').slice(0,1000)};
+ clean.choices=(scene.choices||[]).slice(0,4).map(c=>({text:String(c.text||'Continue').slice(0,180),consequence:String(c.consequence||'').slice(0,220),effects:{health:Math.max(-25,Math.min(25,Number(c.effects?.health)||0)),stamina:Math.max(-25,Math.min(25,Number(c.effects?.stamina)||0)),trust:Math.max(-25,Math.min(25,Number(c.effects?.trust)||0)),item:typeof c.effects?.item==='string'?c.effects.item.slice(0,48):''}}));
+ if(!clean.isEnding && clean.choices.length<2)throw new Error('AI scene needs at least two choices.');
+ return clean;
+}
+function setEngineStatus(message){const el=$('engineStatus');if(el)el.textContent=message;}
+function finalScene(){
+ const f=state.flags;
+ return {chapter:'CHAPTER 05 · THE FINAL DECISION',tag:'SCENE 05 · THE POINT OF NO RETURN',title:'THE LAST SIGNAL',
+ text:`The signal returns. A voice speaks with perfect clarity. It sounds like you, but older, exhausted and afraid.\n\n"${GENRES[state.genre].mystery} Whatever you do next will decide who makes it out."\n\n${GENRES[state.genre].person} appears at the far end of the passage. Headlights bloom beyond the exit. You have seconds to decide.`,
+ dialogue:'YOUR VOICE: "This is the moment. Choose carefully. You cannot undo it."',
+ choices:[['mara',`Trust ${GENRES[state.genre].person} and leave together.`],['runfinal','Run towards the headlights alone.'],['signalfinal','Use the recording and trace the signal.'],['finalsignal','Stay and face the source of the transmission.'],['fastfinal','Take the dangerous shortcut to escape.'],['roadfinal','Use your supplies and take the safer route.']]};
+}
+function currentScene(){
+ if(state.aiScene)return state.aiScene;
+ const scenes=makeScenes();
+ if(state.scene==='final')return finalScene();
+ return scenes[state.scene]||scenes.start;
+}
+function artFor(scene){
+ const map={start:'radial-gradient(ellipse at 70% 38%,#c49a6370,transparent 16%),linear-gradient(120deg,#354a48,#18252a 55%,#090d11)',investigate:'radial-gradient(ellipse at 68% 38%,#c48b5470,transparent 20%),linear-gradient(120deg,#3b3028,#172126 60%,#0b1014)',hide:'radial-gradient(ellipse at 50% 50%,#71806b55,transparent 24%),linear-gradient(120deg,#1b302e,#0a1114)',search:'radial-gradient(ellipse at 50% 50%,#b5a27b44,transparent 25%),linear-gradient(120deg,#30383a,#10171b)',final:'radial-gradient(ellipse at 72% 34%,#e3b36a88,transparent 17%),linear-gradient(120deg,#354b4b,#121c21 60%,#080c10)',ending_good:'radial-gradient(ellipse at 70% 30%,#d6ad6b88,transparent 25%),linear-gradient(120deg,#405b57,#18262a)',ending_bad:'radial-gradient(ellipse at 70% 35%,#8b343466,transparent 20%),linear-gradient(120deg,#261d23,#090d12)',ending_secret:'radial-gradient(ellipse at 70% 35%,#9c75ba88,transparent 20%),linear-gradient(120deg,#24213a,#090d12)'};
+ return `linear-gradient(0deg,#11161b,transparent 70%),${map[scene]||map.final}`;
+}
+function safeText(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function render(){
+ const sc=currentScene();
+ $('chapterLabel').textContent=state.ended?sc.chapter:`${sc.chapter} · DECISION ${String(state.turn+1).padStart(2,'0')}`;
+ setEngineStatus(state.aiEnabled?(state.aiEndpoint?'✦ AI HYBRID MODE · '+AI_MODEL_LABEL:'HYBRID MODE · OFFLINE FALLBACK READY'):'OFFLINE STORY MODE');
+ $('sceneTag').textContent=sc.tag;$('sceneTitle').textContent=sc.title;$('storyText').textContent=typeof sc.text==='function'?sc.text():sc.text;$('sceneArt').style.background=artFor(state.scene);
+ $('dialogue').textContent=sc.dialogue||'';$('dialogue').hidden=!sc.dialogue;
+ $('options').replaceChildren();$('ending').hidden=!state.ended;$('ending').innerHTML='';
+ if(sc.choices&&!state.ended){sc.choices.forEach((choice,i)=>{const b=document.createElement('button');b.className='option';const n=document.createElement('span');n.className='num';n.textContent=String(i+1).padStart(2,'0');const t=document.createElement('span');t.textContent=state.aiScene?choice.text:choice[1];b.append(n,t);b.disabled=aiBusy;b.addEventListener('click',()=>state.aiScene?handleAIChoice(i):resolve(choice[0],choice[1]));$('options').append(b)})}
+ if(state.ended){$('ending').innerHTML=`<div class="eyebrow">${sc.tag}</div><h2>${safeText(sc.title)}</h2><p>${safeText(sc.ending)}</p><button class="btn" id="againBtn">PLAY ANOTHER STORY</button>`;$('againBtn').addEventListener('click',newStory)}
+ $('feedback').textContent=state.feedback||'';$('feedback').hidden=!state.feedback;
+ for(const key of ['health','stamina','trust']){$(key+'Num').textContent=state[key]+'%';$(key+'Bar').style.width=state[key]+'%'}
+ $('inventory').innerHTML=state.inventory.length?state.inventory.map(x=>`<div class="entry">▸ ${safeText(x)}</div>`).join(''):'<div class="entry">Nothing yet</div>';
+ $('log').innerHTML=state.history.length?state.history.slice(-7).reverse().map(x=>`<div>✓ ${safeText(x.label)}</div>`).join(''):'Your story is beginning...';
+ $('newBtn').hidden=false;
+}
+function autoSave(){try{localStorage.setItem(SAVE_KEY,JSON.stringify(state));updateContinue()}catch(e){console.warn('Local save unavailable',e)}}
+function loadSave(){try{const s=JSON.parse(localStorage.getItem(SAVE_KEY)||'null');if(!s||![2,3].includes(s.version)||!GENRES[s.genre])return false;if(s.version===2){s.version=3;s.aiEnabled=false;s.aiEndpoint='';s.aiScene=null;s.aiChapter=1;s.aiHistory=[];}state=s;return true}catch(e){return false}}
+function updateContinue(){const has=!!localStorage.getItem(SAVE_KEY);$('continueBtn').hidden=!has||!!state}
+$('saveBtn').addEventListener('click',()=>{autoSave();state.feedback='Progress saved on this device.';render()});
+$('continueBtn').addEventListener('click',()=>{if(loadSave()){showGame();render()}});
+function showGame(){$('setup').hidden=true;$('game').hidden=false;$('profileName').textContent=state.name;$('profileRole').textContent=state.role;$('profileDifficulty').textContent=state.difficulty;$('profileGenre').textContent=GENRES[state.genre].label;$('newBtn').hidden=false;$('continueBtn').hidden=true;window.scrollTo({top:0,behavior:'smooth'})}
+function newStory(){state=null;$('game').hidden=true;$('setup').hidden=false;$('newBtn').hidden=true;updateContinue();window.scrollTo({top:0,behavior:'smooth'})}
+function showModal(title,body,confirmText,action){$('modalTitle').textContent=title;$('modalText').textContent=body;$('modalConfirm').textContent=confirmText;pendingAction=action;$('modal').classList.remove('hidden')}
+function closeModal(){$('modal').classList.add('hidden');pendingAction=null}
+$('modalCancel').addEventListener('click',closeModal);$('modalConfirm').addEventListener('click',()=>{const a=pendingAction;closeModal();if(a)a()});
+$('exitBtn').addEventListener('click',()=>showModal('Leave this story?','Your progress is saved automatically in this browser. You can continue later on this device.','EXIT STORY',newStory));
+$('newBtn').addEventListener('click',()=>showModal('Start a new story?','Your current story will remain saved. Starting another story replaces the single saved slot.','NEW STORY',()=>{localStorage.removeItem(SAVE_KEY);newStory()}));
+$('startBtn').addEventListener('click',startGame);
+$('aiEndpoint').value=localStorage.getItem('framefate.ai.endpoint')||'';
+$('aiEndpoint').addEventListener('change',()=>localStorage.setItem('framefate.ai.endpoint',$('aiEndpoint').value.trim()));
+$('playerName').addEventListener('keydown',e=>{if(e.key==='Enter')startGame()});
+updateContinue();
+</script>
+</body>
+</html>
